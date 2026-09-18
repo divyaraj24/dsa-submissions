@@ -17,7 +17,3 @@ Data Structures & Algorithms/
   <problem-slug>/
     Main.java
 ```
-
-## Note on history
-
-This repo previously held solutions auto-synced from NeetCode.io's own submission history. That content has been cleared to start fresh with LCortisol-driven practice — the earlier commits are still visible in the git log, just no longer reflected in the current file tree.
