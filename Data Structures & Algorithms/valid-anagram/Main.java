@@ -3,13 +3,13 @@ import java.util.*;
 public class Main {
     static boolean isAnagram(String s, String t) {
         if (s.length() != t.length()) return false;
-	HashMap<Character, Integer> hm = new HashMap<>();
-	for (int i = 0; i < s.length(); i++) {
-		hm.merge(s.charAt(i), +1, (OldVal, Val) -> OldVal + Val == 0 ? null : OldVal + Val);
-		hm.merge(t.charAt(i), -1, (OldVal, Val) -> OldVal + Val == 0 ? null : OldVal + Val);
-	}
+        int[] sc = new int[26];
+        int[] tc = new int[26];
 
-	return hm.isEmpty();
+        for (char i : s.toCharArray()) sc[i - 'a'] = 1;
+        for (char i : t.toCharArray()) tc[i - 'a'] = 1;
+
+        return Arrays.equals(sc, tc);
     }
 
     public static void main(String[] args) {
