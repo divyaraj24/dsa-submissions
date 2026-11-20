@@ -2,27 +2,14 @@ import java.util.*;
 
 public class Main {
     static List<List<String>> groupAnagrams(String[] strs) {
-        HashMap<String, ArrayList<String>> hm = new HashMap<>();
-        for (int i = 0; i < strs.length; i++) {
-            // get char freq for key
-            int[] key = new int[26];
-            for (char j : strs[i].toCharArray()) key[j - 'a']++;
-            StringBuilder sb = new StringBuilder();
-            for (int c : key) sb.append(c).append(','); // for cases [1, 23, 0...] and [12, 3, 0...]
-            String keyString = sb.toString();
+        HashMap<String, List<String>> hm = new HashMap<>();
 
-            if (hm.containsKey(keyString)) {
-                hm.get(keyString).add(strs[i]);
-            }
-            else {
-                ArrayList<String> newList = new ArrayList<>();
-                newList.add(strs[i]);
-                hm.put(keyString, newList);
-            }
-            
-            // hm.computeIfAbsent(KeyString, k -> new ArrayList<>()).add(strs[i]);
+        for (String s : strs) {
+            char[] chars = s.toCharArray();
+            Arrays.sort(chars);
+            String key = new String(chars);
+            hm.computeIfAbsent(key, k -> new ArrayList<>()).add(s);
         }
-
         return new ArrayList<>(hm.values());
     }
 
