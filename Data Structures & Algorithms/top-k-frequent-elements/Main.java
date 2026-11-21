@@ -2,19 +2,30 @@ import java.util.*;
 
 public class Main {
     static int[] topKFrequent(int[] nums, int k) {
-        Map<Integer, Integer> countMap = new HashMap<>();
-        for (int num : nums) {
-            countMap.merge(num, 1, Integer::sum);
+        // 1. Count occurrences in one pass
+        Map<Integer, Integer> count = new HashMap<>();
+        for (int n : nums) count.merge(n, 1, Integer::sum);
+
+        // 2. buckets[f] = numbers that appear exactly f times
+        //    Size n + 1 because a frequency can equal n (e.g. [1,1,1,1])
+        List<Integer>[] buckets = new List[nums.length + 1];
+        for (Map.Entry<Integer, Integer> e : count.entrySet()) {
+            int f = e.getValue();
+            if (buckets[f] == null) buckets[f] = new ArrayList<>();
+            buckets[f].add(e.getKey());
         }
 
-        List<Map.Entry<Integer, Integer>> entries = new ArrayList<>(countMap.entrySet());
-        entries.sort((a, b) -> b.getValue() - a.getValue());
-
-        int[] result = new int[k];
-        for (int i = 0; i < k; i++) {
-            result[i] = entries.get(i).getKey();
+        // 3. Walk from the highest frequency down until we have k numbers
+        int[] res = new int[k];
+        int idx = 0;
+        for (int f = buckets.length - 1; f > 0 && idx < k; f--) {
+            if (buckets[f] == null) continue;
+            for (int num : buckets[f]) {
+                res[idx++] = num;
+                if (idx == k) break;
+            }
         }
-        return result;
+        return res;
     }
 
     public static void main(String[] args) {
